@@ -148,3 +148,20 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 4)
+
+    def test_update_account(self):
+        """ Tries to update an account """
+        # Create a fake account
+        account = AccountFactory()
+        resp = self.client.post(BASE_URL, json=account.serialize())
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # Update the fake account
+        account_new = resp.get_json()
+        account_new["name"] = "Scrooge McDuck"
+        resp = self.client.put(
+            f"{BASE_URL}/{account_new['id']}", json=account_new
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        account_updated = resp.get_json()
+        self.assertEqual(account_updated["name"], "Scrooge McDuck")
