@@ -42,7 +42,8 @@ def index():
 def create_accounts():
     """
     Creates an Account
-    This endpoint will create an Account based the data in the body that is posted
+    This endpoint will create an Account based the data in the body
+    that is posted
     """
     app.logger.info("Request to create an Account")
     check_content_type("application/json")
@@ -51,7 +52,8 @@ def create_accounts():
     account.create()
     message = account.serialize()
     # Uncomment once get_accounts has been implemented
-    # location_url = url_for("get_accounts", account_id=account.id, _external=True)
+    # location_url = url_for("get_accounts", account_id=account.id,
+    # _external=True)
     location_url = "/"  # Remove once get_accounts has been implemented
     return make_response(
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
@@ -61,7 +63,7 @@ def create_accounts():
 # LIST ALL ACCOUNTS
 ######################################################################
 
-# ... place you code here to LIST accounts ...
+
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     """ Returns a list of all accounts """
@@ -70,13 +72,13 @@ def list_accounts():
     accounts = Account.all()
     account_list = [account.serialize() for account in accounts]
 
-    return jsonify(account_list), status.HTTP_200_OK    
+    return jsonify(account_list), status.HTTP_200_OK
 
 ######################################################################
 # READ AN ACCOUNT
 ######################################################################
 
-# ... place you code here to READ an account ...
+
 @app.route("/accounts/<int:id>", methods=["GET"])
 def read_account(id):
     """Reads an account from the database based on the id submitted """
@@ -91,7 +93,7 @@ def read_account(id):
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
 
-# ... place you code here to UPDATE an account ...
+
 @app.route("/accounts/<int:id>", methods=["PUT"])
 def update_account(id):
     """ Updates an account with the submitted id"""
@@ -110,7 +112,7 @@ def update_account(id):
 # DELETE AN ACCOUNT
 ######################################################################
 
-# ... place you code here to DELETE an account ...
+
 @app.route("/accounts/<int:id>", methods=["DELETE"])
 def delete_account(id):
     """ Delete an account with the submitted id """
@@ -119,7 +121,7 @@ def delete_account(id):
     account = Account.find(id)
     if not account:
         abort(status.HTTP_404_NOT_FOUND, f"Account with {id} not found")
-    
+
     account.delete()
 
     return "", status.HTTP_204_NO_CONTENT
@@ -139,4 +141,3 @@ def check_content_type(media_type):
         status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
         f"Content-Type must be {media_type}",
     )
-
